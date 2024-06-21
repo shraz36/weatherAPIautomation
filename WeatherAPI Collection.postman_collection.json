@@ -1,0 +1,1058 @@
+{
+	"info": {
+		"_postman_id": "e3fa3fdc-a0ff-4d3e-baa8-ed0842c4b4ec",
+		"name": "WeatherAPI Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10067932",
+		"_collection_link": "https://www.postman.com/planetary-comet-318246/workspace/insurwave-weatherapi/collection/10067932-e3fa3fdc-a0ff-4d3e-baa8-ed0842c4b4ec?action=share&source=collection_link&creator=10067932"
+	},
+	"item": [
+		{
+			"name": "CURRENT",
+			"item": [
+				{
+					"name": "200 OK CURRENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"",
+									"});",
+									"",
+									"// Schema validation for the response",
+									"pm.test(\"Schema is valid\", function () {",
+									"  var schema = {",
+									"    type: \"object\",",
+									"    properties: {",
+									"      location: {",
+									"        type: \"object\",",
+									"        properties: {",
+									"          name: { type: \"string\" },",
+									"          region: { type: \"string\" },",
+									"          country: { type: \"string\" },",
+									"          lat: { type: \"number\" },",
+									"          lon: { type: \"number\" },",
+									"          tz_id: { type: \"string\" },",
+									"          localtime_epoch: { type: \"number\" },",
+									"          localtime: { type: \"string\" }",
+									"        },",
+									"        required: [\"name\", \"region\", \"country\", \"lat\", \"lon\", \"tz_id\", \"localtime_epoch\", \"localtime\"]",
+									"      },",
+									"      current: {",
+									"        type: \"object\",",
+									"        properties: {",
+									"          last_updated_epoch: { type: \"number\" },",
+									"          last_updated: { type: \"string\" },",
+									"          temp_c: { type: \"number\" },",
+									"          temp_f: { type: \"number\" },",
+									"          is_day: { type: \"number\" },",
+									"          condition: {",
+									"            type: \"object\",",
+									"            properties: {",
+									"              text: { type: \"string\" },",
+									"              icon: { type: \"string\" },",
+									"              code: { type: \"number\" }",
+									"            },",
+									"            required: [\"text\", \"icon\", \"code\"]",
+									"          },",
+									"          wind_mph: { type: \"number\" },",
+									"          wind_kph: { type: \"number\" },",
+									"          wind_degree: { type: \"number\" },",
+									"          wind_dir: { type: \"string\" },",
+									"          pressure_mb: { type: \"number\" },",
+									"          pressure_in: { type: \"number\" },",
+									"          precip_mm: { type: \"number\" },",
+									"          precip_in: { type: \"number\" },",
+									"          humidity: { type: \"number\" },",
+									"          cloud: { type: \"number\" },",
+									"          feelslike_c: { type: \"number\" },",
+									"          feelslike_f: { type: \"number\" },",
+									"          vis_km: { type: \"number\" },",
+									"          vis_miles: { type: \"number\" },",
+									"          uv: { type: \"number\" },",
+									"          gust_mph: { type: \"number\" },",
+									"          gust_kph: { type: \"number\" }",
+									"        },",
+									"        required: [\"last_updated_epoch\", \"last_updated\", \"temp_c\", \"temp_f\", \"is_day\", \"condition\", \"wind_mph\", \"wind_kph\", \"wind_degree\", \"wind_dir\", \"pressure_mb\", \"pressure_in\", \"precip_mm\", \"precip_in\", \"humidity\", \"cloud\", \"feelslike_c\", \"feelslike_f\", \"vis_km\", \"vis_miles\", \"uv\", \"gust_mph\", \"gust_kph\"]",
+									"      }",
+									"    },",
+									"    required: [\"location\", \"current\"]",
+									"  };",
+									"",
+									"  var response = pm.response.json();",
+									"  pm.expect(tv4.validate(response, schema)).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"locations\": [\n        {\n            \"q\": \"53,-0.12\",\n            \"custom_id\": \"my-id-1\"\n        },\n        {\n            \"q\": \"London\",\n            \"custom_id\": \"any-internal-id\"\n        },\n        {\n            \"q\": \"90201\",\n            \"custom_id\": \"us-zipcode-id-765\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}?key=4cf78333be094cdf96b115531243101&q=London",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "London"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "401 Unauthorised CURRENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.response.to.have.status(401);",
+									"    ",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [",
+									"    true,false",
+									"];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"pm.test(\"Response name to have an error message\", function(){",
+									"    const responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"locations\": [\n        {\n            \"q\": \"53,-0.12\",\n            \"custom_id\": \"my-id-1\"\n        },\n        {\n            \"q\": \"London\",\n            \"custom_id\": \"any-internal-id\"\n        },\n        {\n            \"q\": \"90201\",\n            \"custom_id\": \"us-zipcode-id-765\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "400 Bad Request CURRRENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [",
+									"    true,false",
+									"];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"pm.test(\"Response name to have an error message\", function(){",
+									"    const responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "400 Bad Request CURRENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [ true,false];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"// Test to validate the response body is an error",
+									"pm.test(\"Response body is an error\", function () {",
+									"    var responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}?key=4cf78333be094cdf96b115531243101&q=Lo&abc=abd",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "Lo"
+								},
+								{
+									"key": "abc",
+									"value": "abd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "200 OK- CURRENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Removed the usage of Cypress describe and it blocks",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"assertion for data type\", function(){",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.location.name).to.be.a('string');",
+									"    pm.expect(responseJson.location.lat).to.be.a('number');",
+									"    pm.expect(responseJson.current).to.be.an('object');",
+									"});",
+									"",
+									"var schema = {",
+									"    \"items\": {",
+									"        \"name\": \"string\",",
+									"        \"lat\" : \"number\"",
+									"    }",
+									"};",
+									"",
+									"var data1 = [true, false];",
+									"var data2 = [true, 123];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"    pm.expect(tv4.validate(data2, schema)).to.be.true;",
+									"});",
+									"",
+									"//Assertion for data validation",
+									"pm.test(\"Location name is correct\", function () {",
+									"    const location = pm.variables.get('location');",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.location.name).to.eql(location); ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var location"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}?key=4cf78333be094cdf96b115531243101&q={{location}}&alerts=yes",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "{{location}}"
+								},
+								{
+									"key": "alerts",
+									"value": "yes"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FORECAST",
+			"item": [
+				{
+					"name": "200 OK- FORECAST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									"",
+									"pm.test(\"Response name to be string\", function(){",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.location.lat).to.be.a('number');",
+									"    pm.expect(responseJson.current).to.be.a('object')",
+									"    });",
+									"",
+									"var schema = {",
+									"    \"items\": {",
+									"        \"name\": \"string\",",
+									"    }",
+									"};",
+									"",
+									"var data1 = [true, false];",
+									"var data2 = [true, 123];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"    pm.expect(tv4.validate(data2, schema)).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\",\"application/json\");",
+									"});",
+									"",
+									"//Assertion for data validation",
+									"pm.test(\"Location name is correct\", function () {",
+									"    const location = pm.variables.get('location');",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.location.name).to.eql(location); ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{FORECAST}}?key=4cf78333be094cdf96b115531243101&q={{location}}&days=1&api=yes&alerts=yes",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{FORECAST}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "{{location}}"
+								},
+								{
+									"key": "days",
+									"value": "1"
+								},
+								{
+									"key": "api",
+									"value": "yes"
+								},
+								{
+									"key": "alerts",
+									"value": "yes"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "401 Unauthorised FORECAST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.response.to.have.status(401);",
+									"    ",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [",
+									"    true,false",
+									"];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"pm.test(\"Response name to have an error message\", function(){",
+									"    const responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"locations\": [\n        {\n            \"q\": \"53,-0.12\",\n            \"custom_id\": \"my-id-1\"\n        },\n        {\n            \"q\": \"London\",\n            \"custom_id\": \"any-internal-id\"\n        },\n        {\n            \"q\": \"90201\",\n            \"custom_id\": \"us-zipcode-id-765\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{CURRENT}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{CURRENT}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "400 Bad Request FORECAST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [",
+									"    true,false",
+									"];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"pm.test(\"Response name to have an error message\", function(){",
+									"    const responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{FORECAST}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{FORECAST}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "400 Bad Request FORECAST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var schema = {Error};",
+									"",
+									"var data1 = [ true,false];",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+									"})",
+									"",
+									"// Test to validate the response body is an error",
+									"pm.test(\"Response body is an error\", function () {",
+									"    var responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('error').that.is.an('object');",
+									"    pm.expect(responseBody.error).to.have.property('code').that.is.a('number');",
+									"    pm.expect(responseBody.error).to.have.property('message').that.is.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{FORECAST}}?key=4cf78333be094cdf96b115531243101&q=Kanvas",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{FORECAST}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "Kanvas"
+								},
+								{
+									"key": "abc",
+									"value": "abd",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "200 OK FORECAST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"});// Schema validation for the response",
+									"pm.test(\"Schema is valid\", function () {",
+									"  var schema = {",
+									"    type: \"object\",",
+									"    properties: {",
+									"      location: {",
+									"        type: \"object\",",
+									"        properties: {",
+									"          name: { type: \"string\" },",
+									"          region: { type: \"string\" },",
+									"          country: { type: \"string\" },",
+									"          lat: { type: \"number\" },",
+									"          lon: { type: \"number\" },",
+									"          tz_id: { type: \"string\" },",
+									"          localtime_epoch: { type: \"number\" },",
+									"          localtime: { type: \"string\" }",
+									"        },",
+									"        required: [\"name\", \"region\", \"country\", \"lat\", \"lon\", \"tz_id\", \"localtime_epoch\", \"localtime\"]",
+									"      },",
+									"      current: {",
+									"        type: \"object\",",
+									"        properties: {",
+									"          last_updated_epoch: { type: \"number\" },",
+									"          last_updated: { type: \"string\" },",
+									"          temp_c: { type: \"number\" },",
+									"          temp_f: { type: \"number\" },",
+									"          is_day: { type: \"number\" },",
+									"          condition: {",
+									"            type: \"object\",",
+									"            properties: {",
+									"              text: { type: \"string\" },",
+									"              icon: { type: \"string\" },",
+									"              code: { type: \"number\" }",
+									"            },",
+									"            required: [\"text\", \"icon\", \"code\"]",
+									"          },",
+									"          wind_mph: { type: \"number\" },",
+									"          wind_kph: { type: \"number\" },",
+									"          wind_degree: { type: \"number\" },",
+									"          wind_dir: { type: \"string\" },",
+									"          pressure_mb: { type: \"number\" },",
+									"          pressure_in: { type: \"number\" },",
+									"          precip_mm: { type: \"number\" },",
+									"          precip_in: { type: \"number\" },",
+									"          humidity: { type: \"number\" },",
+									"          cloud: { type: \"number\" },",
+									"          feelslike_c: { type: \"number\" },",
+									"          feelslike_f: { type: \"number\" },",
+									"          vis_km: { type: \"number\" },",
+									"          vis_miles: { type: \"number\" },",
+									"          uv: { type: \"number\" },",
+									"          gust_mph: { type: \"number\" },",
+									"          gust_kph: { type: \"number\" }",
+									"        },",
+									"        required: [\"last_updated_epoch\", \"last_updated\", \"temp_c\", \"temp_f\", \"is_day\", \"condition\", \"wind_mph\", \"wind_kph\", \"wind_degree\", \"wind_dir\", \"pressure_mb\", \"pressure_in\", \"precip_mm\", \"precip_in\", \"humidity\", \"cloud\", \"feelslike_c\", \"feelslike_f\", \"vis_km\", \"vis_miles\", \"uv\", \"gust_mph\", \"gust_kph\"]",
+									"      }",
+									"    },",
+									"    required: [\"location\", \"current\"]",
+									"  };",
+									"",
+									"  var response = pm.response.json();",
+									"  pm.expect(tv4.validate(response, schema)).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "4cf78333be094cdf96b115531243101",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"locations\": [\n        {\n            \"q\": \"53,-0.12\",\n            \"custom_id\": \"my-id-1\"\n        },\n        {\n            \"q\": \"London\",\n            \"custom_id\": \"any-internal-id\"\n        },\n        {\n            \"q\": \"90201\",\n            \"custom_id\": \"us-zipcode-id-765\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{FORECAST}}?key=4cf78333be094cdf96b115531243101&q=London",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{FORECAST}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "4cf78333be094cdf96b115531243101"
+								},
+								{
+									"key": "q",
+									"value": "London"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "200 OK - HISTORY",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response name to be string\", function(){",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.location.name).to.be.a('string');",
+							"    pm.expect(responseJson.forecast).to.be.an('object');",
+							"    pm.expect(responseJson.forecast.forecastday).to.be.an('array');",
+							"    pm.expect(responseJson.forecast.forecastday[0].day.maxwind_mph).to.be.a('number');",
+							"    pm.expect(responseJson.forecast.forecastday[0].hour[1].time_epoch).to.be.a('number');",
+							"});",
+							"",
+							"pm.test(\"Content-Type is application/json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\",\"application/json\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "4cf78333be094cdf96b115531243101",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "key",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/{{HISTORY}}?q={{location}}&dt=2023-03-04",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"{{HISTORY}}"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "{{location}}"
+						},
+						{
+							"key": "dt",
+							"value": "2023-03-04"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', function () {",
+							"    pm.response.to.have.status(404);",
+							"    pm.response.describe('Not Found');",
+							"})",
+							"",
+							"var schema = {};",
+							"",
+							"var data1 = [",
+							"    true,",
+							"    false",
+							"];",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.expect(tv4.validate(data1, schema)).to.be.true;",
+							"})",
+							"",
+							"pm.test(\"Response name to be empty\", function(){",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "4cf78333be094cdf96b115531243101",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/?key=4cf78333be094cdf96b115531243101&q=qwerty",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "4cf78333be094cdf96b115531243101"
+						},
+						{
+							"key": "{{baseURL}}",
+							"value": "https://api.weatherapi.com/v1",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "qwerty"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
